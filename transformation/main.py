@@ -13,9 +13,9 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-def schema_transformation(data):
+def schema_transformation(original_data):
     # Parse the JSON string into a Python dictionary
-    data = json.loads(data)
+    data = json.loads(original_data)
 
     # Change 'm' to 'field' and 'mem' to 'memory'
     if 'm' in data:
