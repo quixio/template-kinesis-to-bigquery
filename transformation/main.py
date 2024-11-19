@@ -26,9 +26,12 @@ def schema_transformation(original_data):
     if 'm' in data:
         if data['m'] == 'mem':
             print("YES")            
-            
-            
             data['field'] = 'memory'
+            print("REPLACED")
+            print("/*/*/*/*/*/")
+            print(data)
+            print("/*/*/*/*/*/")
+
         else:
             data['field'] = data['m']
         del data['m']
