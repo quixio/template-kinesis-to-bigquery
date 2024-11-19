@@ -52,9 +52,9 @@ while True:
     time.sleep(1)
 
 while True:
-    time_now = str(datetime.now())
-    host_name = str(f'host_{random.randint(1, 10)}')
-    used_pct = str(random.randint(1, 100))
+    time_now = bytes(str(datetime.now()))
+    host_name = bytes(str(f'host_{random.randint(1, 10)}'))
+    used_pct = bytes(str(random.randint(1, 100)))
 
     kinesis_client.put_record(
         StreamName=stream_name,
