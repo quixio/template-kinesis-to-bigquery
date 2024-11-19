@@ -9,7 +9,7 @@ variables:
   - name: PROJECT_ID
     inputType: FreeText
     description: The BigQuery GCP Project ID
-    defaultValue: ''
+    defaultValue: steve-438814
     required: true
   - name: DATASET_ID
     inputType: FreeText
