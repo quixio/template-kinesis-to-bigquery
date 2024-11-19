@@ -31,7 +31,7 @@ def schema_transformation(original_data):
         del data['m']
 
     # # Convert the dictionary back to a JSON string
-    # return json.dumps(data)
+    return json.dumps(data)
 
 sdf.apply(schema_transformation)
 
