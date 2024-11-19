@@ -6,7 +6,8 @@ from kinesis_source import KinesisSource
 # Load environment variables
 load_dotenv()
 
-quix_sdk_token = os.environ["quix_sdk_token"]
+# uncomment to run locally.
+# quix_sdk_token = os.environ["quix_sdk_token"]
 kinesis_stream = os.environ["kinesis_stream"]
 
 # Create the Kinesis source
