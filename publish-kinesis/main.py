@@ -52,7 +52,7 @@ while True:
     time.sleep(1)
 
 while True:
-    time = datetime.now()
+    time = str(datetime.now())
     host_name = str(f'host_{random.randint(1, 10)}')
     used_pct = str(random.randint(1, 100))
 
