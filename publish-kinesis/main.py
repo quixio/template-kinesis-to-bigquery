@@ -58,7 +58,7 @@ while True:
 
     kinesis_client.put_record(
         StreamName=stream_name,
-        Data='{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time_now + '"},',
+        Data=b'{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time_now + '"},',
         PartitionKey='partition_key'
     )
     time.sleep(1)
