@@ -16,7 +16,7 @@ sdf = app.dataframe(input_topic)
 def schema_transformation(original_data):
     print(original_data['value'])
     # # Parse the JSON string into a Python dictionary
-    # data = json.loads(original_data)
+    data = json.loads(original_data['value'])
 
     # # Change 'm' to 'field' and 'mem' to 'memory'
     # if 'm' in data:
