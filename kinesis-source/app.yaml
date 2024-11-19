@@ -4,7 +4,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write into
-    defaultValue: csv-data
+    defaultValue: kinesis_data
     required: true
   - name: kinesis_stream
     inputType: FreeText
