@@ -1,4 +1,5 @@
 import os
+import json
 from quixstreams import Application
 
 # for local dev, load env vars from a .env file
@@ -12,9 +13,10 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-# put transformation logic here
-# see docs for what you can do
-# https://quix.io/docs/get-started/quixtour/process-threshold.html
+def schema_transformation(data):
+    ...
+
+sdf.apply(schema_transformation)
 
 sdf.print()
 sdf.to_topic(output_topic)
