@@ -23,6 +23,35 @@ deployments:
         - port: 4566
           targetPort: 4566
     variables: []
+  - name: Publish to Kinesis
+    application: publish-kinesis
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: aws_region_name
+        inputType: FreeText
+        description: ''
+        required: false
+        value: us-east-1
+      - name: aws_secret_access_key
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: aws_secret_access_key
+      - name: aws_access_key_id
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: aws_access_key_id
+      - name: kinesis_stream_name
+        inputType: FreeText
+        description: ''
+        required: false
+        value: demo_stream
 
 # This section describes the Topics of the data pipeline
 topics: []
