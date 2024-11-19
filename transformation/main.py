@@ -8,7 +8,7 @@ load_dotenv()
 
 app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
 
-input_topic = app.topic(os.environ["input"], value_deserializer="json")
+input_topic = app.topic(os.environ["input"], value_deserializer="string")
 output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
