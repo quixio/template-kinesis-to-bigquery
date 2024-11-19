@@ -1,4 +1,4 @@
-name: localstack kinesis
+name: Kinesis on localstack
 language: docker
 dockerfile: dockerfile
 defaultFile: dockerfile
