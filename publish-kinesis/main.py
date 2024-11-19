@@ -1,80 +1,64 @@
-from quixstreams import Application  # import the Quix Streams modules for interacting with Kafka:
-# (see https://quix.io/docs/quix-streams/v2-0-latest/api-reference/quixstreams.html for more details)
-
-# import additional modules as needed
+import boto3
 import os
-import json
+import time
+from datetime import datetime
+
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="data_source", auto_create_topics=True)  # create an Application
+stream_name = "stream_1"
 
-# define the topic using the "output" environment variable
-topic_name = os.environ["output"]
-topic = app.topic(topic_name)
-
-
-# this function loads the file and sends each row to the publisher
-def get_data():
-    """
-    A function to generate data from a hardcoded dataset in an endless manner.
-    It returns a list of tuples with a message_key and rows
-    """
-
-    # define the hardcoded dataset
-    # this data is fake data representing used % of memory allocation over time
-    # there is one row of data every 1 to 2 seconds
-    data = [
-        {"m": "mem", "host": "host1", "used_percent": "64.56", "time": "1577836800000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "71.89", "time": "1577836801000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "63.27", "time": "1577836803000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "73.45", "time": "1577836804000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "62.98", "time": "1577836806000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "74.33", "time": "1577836808000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "65.21", "time": "1577836810000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "70.88", "time": "1577836812000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "64.61", "time": "1577836814000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "72.56", "time": "1577836816000000000"},
-        {"m": "mem", "host": "host1", "used_percent": "63.77", "time": "1577836818000000000"},
-        {"m": "mem", "host": "host2", "used_percent": "73.21", "time": "1577836820000000000"}
-    ]
-
-    # create a list of tuples with row_data
-    data_with_id = [(row_data) for row_data in data]
-
-    return data_with_id
+try:
+    kinesis_client = boto3.client(
+        'kinesis',
+        aws_access_key_id=os.environ["aws_access_key_id"],
+        aws_secret_access_key=os.environ["aws_secret_access_key"],
+        region_name=os.environ["aws_region_name"],
+        endpoint_url="http://localhost:4567"
+    )
+except Exception as e:
+    print(f"Failed to connect to AWS: {e}")
 
 
-def main():
-    """
-    Read data from the hardcoded dataset and publish it to Kafka
-    """
+# Check if the stream exists
+try:
+    response = kinesis_client.describe_stream(StreamName=stream_name)
+    stream_status = response['StreamDescription']['StreamStatus']
 
-    # create a pre-configured Producer object.
-    with app.get_producer() as producer:
-        # iterate over the data from the hardcoded dataset
-        data_with_id = get_data()
-        for row_data in data_with_id:
+    # Wait until the stream is active
+    while stream_status != 'ACTIVE':
+        time.sleep(1)
+        response = kinesis_client.describe_stream(StreamName=stream_name)
+        stream_status = response['StreamDescription']['StreamStatus']
 
-            json_data = json.dumps(row_data)  # convert the row to JSON
+except kinesis_client.exceptions.ResourceNotFoundException:
+    # Create the stream if it doesn't exist
+    kinesis_client.create_stream(StreamName=stream_name, ShardCount=1)
 
-            # publish the data to the topic
-            producer.produce(
-                topic=topic.name,
-                key=row_data['host'],
-                value=json_data,
-            )
+    # Wait until the stream is active
+    while True:
+        response = kinesis_client.describe_stream(StreamName=stream_name)
+        stream_status = response['StreamDescription']['StreamStatus']
+        if stream_status == 'ACTIVE':
+            break
+        time.sleep(1)
 
-            # for more help using QuixStreams see docs:
-            # https://quix.io/docs/quix-streams/introduction.html
+while True:
+    response = kinesis_client.describe_stream(StreamName=stream_name)
+    if response['StreamDescription']['StreamStatus'] == 'ACTIVE':
+        break
+    time.sleep(1)
 
-        print("All rows published")
+while True:
+    time = datetime.now()
+    host_name = ""
+    used_pct = ""
 
-
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("Exiting.")
+    kinesis_client.put_record(
+        StreamName=stream_name,
+        Data=b'{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time + '"},',
+        PartitionKey='partition_key'
+    )
+    
