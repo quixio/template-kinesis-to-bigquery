@@ -20,7 +20,7 @@ def schema_transformation(original_data):
 
     # # Parse the JSON string into a Python dictionary
     data = json.loads(original_data)
-    print(data)
+    print(data["value"])
 
     # Change 'm' to 'field' and 'mem' to 'memory'
     if 'm' in data:
