@@ -16,7 +16,7 @@ kinesis_source = KinesisSource(
     aws_access_key_id=os.environ["aws_access_key_id"],
     aws_secret_access_key=os.environ["aws_secret_access_key"],
     region_name=os.environ["aws_region_name"],
-    endpoint_url="http://localhost:4567"  # Use None if connecting to AWS Kinesis
+    endpoint_url="http://kinesis:4566"  # Use None if connecting to AWS Kinesis
 )
 
 # Initialize the application
