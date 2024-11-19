@@ -8,7 +8,7 @@ import random
 from dotenv import load_dotenv
 load_dotenv()
 
-stream_name = "demo_stream"
+stream_name = os.environ["kinesis_stream_name"]
 
 try:
     kinesis_client = boto3.client(
