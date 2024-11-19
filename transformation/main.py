@@ -39,7 +39,7 @@ def schema_transformation(original_data):
     # # Convert the dictionary back to a JSON string
     return data
 
-sdf.apply(schema_transformation)
+sdf = sdf.apply(schema_transformation)
 
 sdf.print()
 sdf.to_topic(output_topic)
