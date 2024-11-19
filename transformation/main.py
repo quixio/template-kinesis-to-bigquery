@@ -24,8 +24,10 @@ def schema_transformation(original_data):
 
     # Change 'm' to 'field' and 'mem' to 'memory'
     if 'm' in data:
-        print("YES")
         if data['m'] == 'mem':
+            print("YES")            
+            
+            
             data['field'] = 'memory'
         else:
             data['field'] = data['m']
