@@ -1,13 +1,18 @@
 import os
-from setup_logger import logger
 
 from quixstreams import Application
+from quixstreams.sinks.community.bigquery import BigQuerySink
 
-# for local dev, load env vars from a .env file
-from dotenv import load_dotenv
-load_dotenv()
+app = Application(
+    broker_address="localhost:9092",
+    auto_offset_reset="earliest",
+    consumer_group="consumer-group",
+)
 
-from big_query_sink import BigQuerySink
+topic = app.topic("topic-name")
+
+# Read the service account credentials in JSON format from some environment variable.
+service_account_json = os.environ['BIGQUERY_SERVICE_ACCOUNT_JSON']
 
 TABLE_NAME = os.environ["TABLE_NAME"]
 PROJECT_ID = os.environ["PROJECT_ID"]
@@ -15,26 +20,21 @@ DATASET_ID = os.environ["DATASET_ID"]
 DATASET_LOCATION = os.environ["DATASET_LOCATION"]
 SERVICE_ACCOUNT_JSON = os.environ["SERVICE_ACCOUNT_JSON"]
 
-big_query_sink = BigQuerySink(
-    PROJECT_ID, 
-    DATASET_ID, 
-    DATASET_LOCATION,
-    TABLE_NAME, 
-    SERVICE_ACCOUNT_JSON,
-    logger)
+# Initialize a sink
+bigquery_sink = BigQuerySink(
+    project_id=PROJECT_ID,
+    location=DATASET_LOCATION,
+    dataset_id=DATASET_ID,
+    table_name=TABLE_NAME,
+    service_account_json=service_account_json,
+    schema_auto_update=True,
+    ddl_timeout=10.0,
+    insert_timeout=10.0,
+    retry_timeout=30.0,
+)
 
-big_query_sink.connect()
+sdf = app.dataframe(topic)
+sdf.sink(bigquery_sink)
 
-app = Application(
-    consumer_group=os.environ["CONSUMER_GROUP"], 
-    auto_offset_reset = "earliest",
-    commit_interval=1,
-    commit_every=100)
-
-input_topic = app.topic(os.environ["input"])
-
-sdf = app.dataframe(input_topic)
-sdf.sink(big_query_sink)
-
-if __name__ == "__main__":
-    app.run(sdf)
+if __name__ == '__main__':
+    app.run()
