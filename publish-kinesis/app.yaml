@@ -1,6 +1,11 @@
 name: Publish to Kinesis
 language: python
-variables: []
+variables:
+  - name: aws_region_name
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
