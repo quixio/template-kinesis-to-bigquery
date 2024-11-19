@@ -11,6 +11,11 @@ variables:
     description: ''
     defaultValue: kinesis_data
     required: false
+  - name: aws_region_name
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
