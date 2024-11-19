@@ -3,9 +3,7 @@ import os
 from quixstreams import Application
 from quixstreams.sinks.community.bigquery import BigQuerySink
 
-app = Application(
-    broker_address="localhost:9092",
-    auto_offset_reset="earliest",
+app = Application(auto_offset_reset="earliest",
     consumer_group="consumer-group",
 )
 
