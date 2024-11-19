@@ -11,15 +11,18 @@ deployments:
     version: latest
     deploymentType: Service
     resources:
-      cpu: 200
-      memory: 500
+      cpu: 1000
+      memory: 1000
       replicas: 1
-    variables: []
+    state:
+      enabled: true
+      size: 3
     network:
       serviceName: kinesis
       ports:
         - port: 4566
           targetPort: 4566
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics: []
