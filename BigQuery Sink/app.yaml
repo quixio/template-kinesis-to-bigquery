@@ -24,7 +24,7 @@ variables:
   - name: TABLE_NAME
     inputType: FreeText
     description: Name of the destination table.
-    defaultValue: ''
+    defaultValue: demo
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
