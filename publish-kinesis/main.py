@@ -16,7 +16,7 @@ try:
         aws_access_key_id=os.environ["aws_access_key_id"],
         aws_secret_access_key=os.environ["aws_secret_access_key"],
         region_name=os.environ["aws_region_name"],
-        endpoint_url="http://localhost:4567"
+        endpoint_url="http://localhost:4566"
     )
 except Exception as e:
     print(f"Failed to connect to AWS: {e}")
