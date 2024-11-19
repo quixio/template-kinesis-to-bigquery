@@ -52,13 +52,14 @@ while True:
     time.sleep(1)
 
 while True:
-    time = str(datetime.now())
+    time_now = str(datetime.now())
     host_name = str(f'host_{random.randint(1, 10)}')
     used_pct = str(random.randint(1, 100))
 
     kinesis_client.put_record(
         StreamName=stream_name,
-        Data='{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time + '"},',
+        Data='{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time_now + '"},',
         PartitionKey='partition_key'
     )
+    time.sleep(1)
     
