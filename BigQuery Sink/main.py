@@ -9,7 +9,7 @@ app = Application(
     consumer_group="consumer-group",
 )
 
-topic = app.topic("topic-name")
+topic = app.topic(os.environ["input"])
 
 # Read the service account credentials in JSON format from some environment variable.
 service_account_json = os.environ['BIGQUERY_SERVICE_ACCOUNT_JSON']
