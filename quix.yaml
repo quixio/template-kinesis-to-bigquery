@@ -54,4 +54,9 @@ deployments:
         value: demo_stream
 
 # This section describes the Topics of the data pipeline
-topics: []
+topics:
+  - name: kinesis_data
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
