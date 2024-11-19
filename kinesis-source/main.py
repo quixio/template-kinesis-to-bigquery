@@ -8,6 +8,7 @@ load_dotenv()
 
 quix_sdk_token = os.environ["quix_sdk_token"]
 kinesis_stream = os.environ["kinesis_stream"]
+
 # Create the Kinesis source
 kinesis_source = KinesisSource(
     name="kinesis_source",
