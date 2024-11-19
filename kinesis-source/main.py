@@ -21,7 +21,7 @@ kinesis_source = KinesisSource(
 )
 
 # Initialize the application
-app = Application(quix_sdk_token=quix_sdk_token)
+app = Application() # supply to run locally quix_sdk_token=quix_sdk_token
 
 # Create a Streaming DataFrame from the source
 sdf = app.dataframe(source=kinesis_source)
