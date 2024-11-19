@@ -16,6 +16,11 @@ variables:
     description: ''
     defaultValue: aws_access_key_id
     required: false
+  - name: kinesis_stream_name
+    inputType: FreeText
+    description: ''
+    defaultValue: demo_stream
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
