@@ -15,6 +15,11 @@ deployments:
       memory: 500
       replicas: 1
     variables: []
+    network:
+      serviceName: kinesis
+      ports:
+        - port: 4566
+          targetPort: 4566
 
 # This section describes the Topics of the data pipeline
 topics: []
