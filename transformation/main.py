@@ -14,7 +14,10 @@ output_topic = app.topic(os.environ["output"])
 sdf = app.dataframe(input_topic)
 
 def schema_transformation(original_data):
+    print("------------")
     print(original_data)
+    print("++++++++++++")
+
     # # Parse the JSON string into a Python dictionary
     data = json.loads(original_data)
     print(data['value'])
