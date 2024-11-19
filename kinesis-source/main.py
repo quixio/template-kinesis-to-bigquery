@@ -7,11 +7,11 @@ from kinesis_source import KinesisSource
 load_dotenv()
 
 quix_sdk_token = os.environ["quix_sdk_token"]
-
+kinesis_stream = os.environ["kinesis_stream"]
 # Create the Kinesis source
 kinesis_source = KinesisSource(
     name="kinesis_source",
-    stream_name='stream_1',
+    stream_name=kinesis_stream,
     aws_access_key_id=os.environ["aws_access_key_id"],
     aws_secret_access_key=os.environ["aws_secret_access_key"],
     region_name=os.environ["aws_region_name"],
