@@ -6,7 +6,7 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: localstack kinesis
+  - name: Kinesis on localstack
     application: localstack kinesis
     version: latest
     deploymentType: Service
