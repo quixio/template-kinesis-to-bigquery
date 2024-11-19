@@ -14,29 +14,18 @@ output_topic = app.topic(os.environ["output"], value_serializer="json")
 sdf = app.dataframe(input_topic)
 
 def schema_transformation(original_data):
-    print("------------")
-    print(original_data)
-    print("++++++++++++")
-
-    # # Parse the JSON string into a Python dictionary
+    # Parse the JSON string into a Python dictionary
     data = json.loads(original_data)
-    print(data)
 
     # Change 'm' to 'field' and 'mem' to 'memory'
     if 'm' in data:
         if data['m'] == 'mem':
-            print("YES")            
             data['field'] = 'memory'
-            print("REPLACED")
-            print("/*/*/*/*/*/")
-            print(data)
-            print("/*/*/*/*/*/")
-
         else:
             data['field'] = data['m']
         del data['m']
 
-    # # Convert the dictionary back to a JSON string
+    # Convert the dictionary back to a JSON string
     return data
 
 sdf = sdf.apply(schema_transformation)
