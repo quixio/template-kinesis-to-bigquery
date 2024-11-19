@@ -3,6 +3,7 @@ import os
 import time
 from datetime import datetime
 import random
+import json
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -52,13 +53,22 @@ while True:
     time.sleep(1)
 
 while True:
-    time_now = bytes(str(datetime.now()))
-    host_name = bytes(str(f'host_{random.randint(1, 10)}'))
-    used_pct = bytes(str(random.randint(1, 100)))
+    time_now = datetime.now().isoformat()
+    host_name = f'host_{random.randint(1, 10)}'
+    used_pct = random.randint(1, 100)
+
+    data_dict = {
+        "m": "mem",
+        "host": host_name,
+        "used_percent": used_pct,
+        "time": time_now
+    }
+
+    data_json = json.dumps(data_dict)
 
     kinesis_client.put_record(
         StreamName=stream_name,
-        Data=b'{"m": "mem", "host": "' + host_name + '", "used_percent": "' + used_pct + '", "time": "' + time_now + '"},',
+        Data=data_json.encode('utf-8'),
         PartitionKey='partition_key'
     )
     time.sleep(1)
