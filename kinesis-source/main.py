@@ -12,7 +12,7 @@ kinesis_stream = os.environ["kinesis_stream"]
 
 # Create the Kinesis source
 kinesis_source = KinesisSource(
-    name="kinesis_source",
+    name=kinesis_stream,
     stream_name=kinesis_stream,
     aws_access_key_id=os.environ["aws_access_key_id"],
     aws_secret_access_key=os.environ["aws_secret_access_key"],
