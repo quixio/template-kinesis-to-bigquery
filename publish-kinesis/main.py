@@ -2,7 +2,7 @@ import boto3
 import os
 import time
 from datetime import datetime
-
+import random
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -53,8 +53,8 @@ while True:
 
 while True:
     time = datetime.now()
-    host_name = ""
-    used_pct = ""
+    host_name = str(f'host_{random.randint(1, 10)}')
+    used_pct = str(random.randint(1, 100))
 
     kinesis_client.put_record(
         StreamName=stream_name,
