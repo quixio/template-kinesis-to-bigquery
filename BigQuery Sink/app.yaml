@@ -14,7 +14,7 @@ variables:
   - name: DATASET_ID
     inputType: FreeText
     description: The target BigQuery dataset ID
-    defaultValue: demo
+    defaultValue: steve-438814.demo
     required: true
   - name: DATASET_LOCATION
     inputType: FreeText
