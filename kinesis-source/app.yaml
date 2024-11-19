@@ -21,6 +21,11 @@ variables:
     description: ''
     defaultValue: aws_secret_access_key
     required: false
+  - name: aws_access_key_id
+    inputType: Secret
+    description: ''
+    defaultValue: aws_access_key_id
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
