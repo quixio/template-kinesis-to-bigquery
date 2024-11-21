@@ -24,6 +24,6 @@ bigquery_sink = BigQuerySink(
 
 sdf = app.dataframe(topic)
 sdf.sink(bigquery_sink)
-
+sdf.print()
 if __name__ == '__main__':
     app.run()
