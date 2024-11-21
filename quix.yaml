@@ -138,7 +138,7 @@ deployments:
         inputType: FreeText
         description: Name of the destination table.
         required: true
-        value: demo2
+        value: demo-data
       - name: CONSUMER_GROUP
         inputType: FreeText
         description: Kafka consumer group.
