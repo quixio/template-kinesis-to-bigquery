@@ -65,8 +65,10 @@ while True:
     }
 
     data_json = json.dumps(data_dict)
+    
     print("Publishing:")
     print(data_json)
+
     kinesis_client.put_record(
         StreamName=stream_name,
         Data=data_json.encode('utf-8'),
