@@ -1,4 +1,3 @@
 quixstreams==3.3.0
 quixstreams[bigquery]
-google-cloud-bigquery
 python-dotenv
