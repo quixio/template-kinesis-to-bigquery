@@ -1,0 +1,32 @@
+name: Kinesis Source
+language: python
+variables:
+  - name: output
+    inputType: OutputTopic
+    description: Name of the output topic to write into
+    defaultValue: kinesis_data
+    required: true
+  - name: kinesis_stream
+    inputType: FreeText
+    description: ''
+    defaultValue: kinesis_data
+    required: false
+  - name: aws_region_name
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1
+    required: false
+  - name: aws_secret_access_key
+    inputType: Secret
+    description: ''
+    defaultValue: aws_secret_access_key
+    required: false
+  - name: aws_access_key_id
+    inputType: Secret
+    description: ''
+    defaultValue: aws_access_key_id
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: starter-source

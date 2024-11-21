@@ -1,0 +1,5 @@
+name: localstack kinesis
+language: docker
+dockerfile: dockerfile
+defaultFile: dockerfile
+libraryItemId: starter-source
