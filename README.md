@@ -66,7 +66,7 @@ Each component uses specific environment variables to configure its operation. T
 
 ## How to Run
 
-1. **Set Up Quix Account**: [Create a Quix account](quix.com) and [set up a project](quix.com/docs).
+1. **Set Up Quix Account**: [Book a demo to get your Quix account](https://quix.io/book-a-demo) and [set up a project](https://quix.io/docs/create/create-project.html).
 2. **Deploy Components**: Use the Quix platform to deploy each component as a service.
 3. **Configure Environment Variables**: Ensure all required environment variables are set for each service.
 4. **Run the Pipeline**: Start the services in the correct order to process data from Kinesis to BigQuery.
@@ -75,6 +75,6 @@ Each component uses specific environment variables to configure its operation. T
 
 If you want to cut costs further and move away from Kinesis entirely, you can restructure your pipeline to ingest the IoT (or any other data) into Quix directly, process it, and store in BigQuery like so:
 
-![Kinesis to BigQuery via Firehose](./aws_quix_bq.png)S
+![Kinesis to BigQuery via Firehose](./aws_quix_bq.png)
 
 If you'd like more information, [get in touch](https://share.hsforms.com/1iW0TmZzKQMChk0lxd_tGiw4yjw2).
