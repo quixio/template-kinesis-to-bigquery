@@ -71,5 +71,6 @@ while True:
         Data=data_json.encode('utf-8'),
         PartitionKey='partition_key'
     )
+    print(f"Put record {data_json}")
     time.sleep(1)
     
