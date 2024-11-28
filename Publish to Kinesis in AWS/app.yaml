@@ -26,6 +26,11 @@ variables:
     description: ''
     defaultValue: kinesis-benchmarking
     required: false
+  - name: S3_FILE_KEY
+    inputType: FreeText
+    description: ''
+    defaultValue: ''
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
