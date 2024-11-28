@@ -1,67 +1,48 @@
 import datetime
 import json
+import random
 import boto3
 import time
 import os
-import pandas as pd
+# for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
 STREAM_NAME = os.environ["kinesis_stream_name"]
-REGION = os.environ["AWS_REGION_NAME"]
-AWS_KEY = os.environ["AWS_ACCESS_KEY_ID"]
-AWS_SECRET = os.environ["AWS_SECRET_ACCESS_KEY"]
-S3_BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
-S3_FILE_KEY = os.environ["S3_FILE_KEY"]
+REGION = os.environ["aws_region_name"]  # Replace with your region
+AWS_KEY = os.environ["aws_access_key_id"]
+AWS_SECRET = os.environ["aws_secret_access_key"]
 
-# Update the state directory and file paths
-STATE_DIR = './state'  # Directory for shared state
-LOCK_FILE_PATH = os.path.join(STATE_DIR, 'lockfile.lock')  # Path to the lock file
-PARQUET_FILE_PATH = os.path.join(STATE_DIR, 'all_stock_data.parquet')  # Path to the Parquet file
 
-# Existing function to download the Parquet file from S3
-def download_parquet_from_s3(bucket_name, file_key, download_path):
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id=AWS_KEY,
-        aws_secret_access_key=AWS_SECRET,
-        region_name=REGION,
-    )
-    print("Downloading parquet file...")
-    s3_client.download_file(bucket_name, file_key, download_path)
-    print("Finished downloading parquet file.")
+# Predefined list of tickers
+TICKERS = ["AAPL", "AMZN", "MSFT", "INTC", "TBV"]
 
-# Existing function to read data from a Parquet file
-def read_parquet_data(file_path):
-    df = pd.read_parquet(file_path)
-    return df.to_dict(orient='records')
+# Function to generate synthetic stock data
+def generate_synthetic_data(num_records):
+    synthetic_data = []
+    for _ in range(num_records):
+        record = {
+            "Date": datetime.datetime.now().isoformat(),
+            "Ticker": random.choice(TICKERS),  # Pick from predefined list
+            "Open": round(random.uniform(100, 500), 2),
+            "High": round(random.uniform(100, 500), 2),
+            "Low": round(random.uniform(100, 500), 2),
+            "Close": round(random.uniform(100, 500), 2),
+            "Volume": random.randint(1000, 10000),
+            "Dividends": round(random.uniform(0, 5), 2),
+            "Stock Splits": random.randint(0, 2)
+        }
+        synthetic_data.append(record)
+    return synthetic_data
 
-# New function to download the Parquet file with a lock
-def download_parquet_with_lock(bucket_name, file_key, download_path):
-    while os.path.exists(LOCK_FILE_PATH):
-        print("Waiting for lock to be released...")
-        time.sleep(5)  # Wait for 5 seconds before checking again
-
-    try:
-        # Create a lock file
-        with open(LOCK_FILE_PATH, 'w') as lock_file:
-            lock_file.write('locked')
-
-        # Download the Parquet file
-        download_parquet_from_s3(bucket_name, file_key, download_path)
-
-    finally:
-        # Remove the lock file
-        if os.path.exists(LOCK_FILE_PATH):
-            os.remove(LOCK_FILE_PATH)
-
-# Existing function to generate data
+# Updated generate function to track data size
 def generate(stream_name, kinesis_client, data):
+    total_data_size = 0
     for record in data:
         try:
             # Prepare the data to be sent
             data_to_send = {
-                "date": record['Date'].isoformat(),
+                "date": record['Date'],
                 "ticker": record['Ticker'],
                 "open": record['Open'],
                 "high": record['High'],
@@ -73,6 +54,15 @@ def generate(stream_name, kinesis_client, data):
             }
             partition_key = data_to_send['ticker']
 
+            # Calculate the size of the data to be sent
+            data_size = len(json.dumps(data_to_send).encode('utf-8'))
+            total_data_size += data_size
+
+            # Stop if approximately 1.1GB of data has been sent
+            if total_data_size >= 1.1e9:  # 1.1GB in bytes
+                print("Reached 1.1GB data limit. Stopping data generation.")
+                break
+
             print(f"Sending data: {data_to_send}")
             response = kinesis_client.put_record(
                 StreamName=stream_name,
@@ -80,13 +70,12 @@ def generate(stream_name, kinesis_client, data):
                 PartitionKey=partition_key
             )
             print(f"Sent record to shard: {response['ShardId']} using partition key: {partition_key}")
-            # time.sleep(0.01)  # Add a delay between records
 
         except Exception as e:
             print(f"Error sending record to Kinesis: {str(e)}")
-
             time.sleep(0.1)  # Wait before retrying
-    print("All records from the Parquet file have been processed.")
+
+    print("All records have been processed.")
 
 if __name__ == "__main__":
     kinesis_client = boto3.client(
@@ -97,12 +86,7 @@ if __name__ == "__main__":
     )
     print(f"Starting producer for stream: {STREAM_NAME}")
 
-    # Ensure the state directory exists
-    os.makedirs(STATE_DIR, exist_ok=True)
-    
-    # Download the Parquet file from S3 with locking
-    download_parquet_with_lock(S3_BUCKET_NAME, S3_FILE_KEY, PARQUET_FILE_PATH)
+    # Generate synthetic data
+    synthetic_data = generate_synthetic_data(1000000)  # Adjust the number of records as needed
 
-    data = read_parquet_data(PARQUET_FILE_PATH)
-
-    generate(STREAM_NAME, kinesis_client, data)
+    generate(STREAM_NAME, kinesis_client, synthetic_data)
