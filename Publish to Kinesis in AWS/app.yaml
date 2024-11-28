@@ -11,7 +11,7 @@ variables:
     description: ''
     defaultValue: aws_secret_access_key
     required: false
-  - name: aws_access_key_id
+  - name: AWS_ACCESS_KEY_ID
     inputType: Secret
     description: ''
     defaultValue: aws_access_key_id
