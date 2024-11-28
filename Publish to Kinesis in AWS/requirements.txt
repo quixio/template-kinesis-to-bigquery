@@ -1,4 +1,5 @@
 quixstreams==3.3.0
 python-dotenv
 pandas
+pyarrow
 boto3
