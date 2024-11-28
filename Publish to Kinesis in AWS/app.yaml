@@ -19,7 +19,7 @@ variables:
   - name: kinesis_stream_name
     inputType: FreeText
     description: ''
-    defaultValue: demo_stream
+    defaultValue: BenchmarkStocksInputV2
     required: false
   - name: S3_BUCKET_NAME
     inputType: FreeText
