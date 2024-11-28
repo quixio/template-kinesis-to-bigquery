@@ -160,8 +160,8 @@ deployments:
     deploymentType: Service
     resources:
       cpu: 1000
-      memory: 1000
-      replicas: 1
+      memory: 500
+      replicas: 5
     variables:
       - name: AWS_REGION_NAME
         inputType: FreeText
