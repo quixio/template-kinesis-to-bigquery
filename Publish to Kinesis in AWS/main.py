@@ -59,7 +59,7 @@ def generate(stream_name, kinesis_client, data):
             total_data_size += data_size
 
             # Stop if approximately 1.1GB of data has been sent
-            if total_data_size >= 1.1e9:  # 1.1GB in bytes
+            if total_data_size >= 2e9:  # 2GB in bytes
                 print("Reached 1.1GB data limit. Stopping data generation.")
                 break
 
