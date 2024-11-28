@@ -21,6 +21,11 @@ variables:
     description: ''
     defaultValue: demo_stream
     required: false
+  - name: S3_BUCKET_NAME
+    inputType: FreeText
+    description: ''
+    defaultValue: kinesis-benchmarking
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
