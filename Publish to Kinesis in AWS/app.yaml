@@ -1,4 +1,4 @@
-name: Publish to Kinesis in AWS
+name: Publish StockData to Kinesis in AWS
 language: python
 variables:
   - name: AWS_REGION_NAME
