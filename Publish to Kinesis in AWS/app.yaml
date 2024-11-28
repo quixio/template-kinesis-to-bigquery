@@ -1,7 +1,7 @@
 name: Publish to Kinesis in AWS
 language: python
 variables:
-  - name: aws_region_name
+  - name: AWS_REGION_NAME
     inputType: FreeText
     description: ''
     defaultValue: us-east-1
