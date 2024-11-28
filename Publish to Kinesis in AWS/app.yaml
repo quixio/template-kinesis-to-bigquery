@@ -1,0 +1,26 @@
+name: Publish to Kinesis in AWS
+language: python
+variables:
+  - name: aws_region_name
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1
+    required: false
+  - name: aws_secret_access_key
+    inputType: Secret
+    description: ''
+    defaultValue: aws_secret_access_key
+    required: false
+  - name: aws_access_key_id
+    inputType: Secret
+    description: ''
+    defaultValue: aws_access_key_id
+    required: false
+  - name: kinesis_stream_name
+    inputType: FreeText
+    description: ''
+    defaultValue: demo_stream
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
