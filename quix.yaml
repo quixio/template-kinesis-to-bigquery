@@ -199,7 +199,7 @@ deployments:
     deploymentType: Service
     resources:
       cpu: 1000
-      memory: 2000
+      memory: 4000
       replicas: 5
     variables:
       - name: AWS_REGION_NAME
