@@ -15,7 +15,7 @@ AWS_SECRET = os.environ["AWS_SECRET_ACCESS_KEY"]
 
 
 # Predefined list of tickers
-TICKERS = ["NVDA", "AAPL", "MSFT", "AMZN", "META", "GOOGL", "TSLA", "GOOG", "BRK.B", "UNH", "XOM", "LLY", "JPM", "JNJ", "V", "PG", "MA", "AVGO", "HD", "CVX"]
+TICKERS = ["NVDA", "AAPL", "MSFT", "AMZN", "META", "GOOGL", "TSLA", "GOOG", "BRK", "UNH", "XOM", "LLY", "JPM", "JNJ", "V", "PG", "MA", "AVGO", "HD", "CVX"]
 
 # Function to generate synthetic stock data
 def generate_synthetic_data(num_records):
