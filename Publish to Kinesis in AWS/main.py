@@ -58,9 +58,9 @@ def generate(stream_name, kinesis_client, data):
             data_size = len(json.dumps(data_to_send).encode('utf-8'))
             total_data_size += data_size
 
-            # Stop if approximately 1.1GB of data has been sent
+            # Stop if approximately 2GB of data has been sent
             if total_data_size >= 2e9:  # 2GB in bytes
-                print("Reached 1.1GB data limit. Stopping data generation.")
+                print("Reached 2GB data limit. Stopping data generation.")
                 break
 
             print(f"Sending data: {data_to_send}")
