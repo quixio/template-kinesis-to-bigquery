@@ -6,7 +6,7 @@ variables:
     description: ''
     defaultValue: us-east-1
     required: false
-  - name: aws_secret_access_key
+  - name: AWS_SECRET_ACCESS_KEY
     inputType: Secret
     description: ''
     defaultValue: aws_secret_access_key
