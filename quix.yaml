@@ -182,7 +182,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: false
-        value: BenchmarkStocksInputV3
+        value: BenchmarkStocksInputV4
       - name: S3_BUCKET_NAME
         inputType: FreeText
         description: ''
