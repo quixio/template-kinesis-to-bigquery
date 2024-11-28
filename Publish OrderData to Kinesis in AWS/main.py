@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 STREAM_NAME = os.environ["kinesis_stream_name_lambda"]
-REGION = os.environ["aws_region_name"]  # Replace with your region
-AWS_KEY = os.environ["aws_access_key_id"]
-AWS_SECRET = os.environ["aws_secret_access_key"]
+REGION = os.environ["AWS_REGION_NAME"]  # Replace with your region
+AWS_KEY = os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET = os.environ["AWS_SECRET_ACCESS_KEY"]
 
 
 # Predefined lists for random data generation
