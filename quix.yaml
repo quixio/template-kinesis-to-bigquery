@@ -227,6 +227,40 @@ deployments:
         description: ''
         required: false
         value: kinesis-benchmarking
+  - name: Publish OrderLineData to Kinesis in AWS
+    application: Publish OrderLineData to Kinesis in AWS
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 4000
+      replicas: 5
+    variables:
+      - name: AWS_REGION_NAME
+        inputType: FreeText
+        description: ''
+        required: false
+        value: us-east-1
+      - name: AWS_SECRET_ACCESS_KEY
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: aws_secret_access_key
+      - name: AWS_ACCESS_KEY_ID
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: aws_access_key_id
+      - name: kinesis_stream_name_flink
+        inputType: FreeText
+        description: ''
+        required: false
+        value: BenchmarkOrderlinesInputV2
+      - name: S3_BUCKET_NAME
+        inputType: FreeText
+        description: ''
+        required: false
+        value: kinesis-benchmarking
 
 # This section describes the Topics of the data pipeline
 topics:
