@@ -19,7 +19,7 @@ variables:
   - name: kinesis_stream_name_flink
     inputType: FreeText
     description: ''
-    defaultValue: BenchmarkOrdersInputV2
+    defaultValue: BenchmarkOrderlinesInputV1
     required: false
   - name: S3_BUCKET_NAME
     inputType: FreeText
