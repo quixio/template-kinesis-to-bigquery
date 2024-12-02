@@ -1,0 +1,31 @@
+name: Publish OrderLineData to Kinesis in AWS
+language: python
+variables:
+  - name: AWS_REGION_NAME
+    inputType: FreeText
+    description: ''
+    defaultValue: us-east-1
+    required: false
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    description: ''
+    defaultValue: aws_secret_access_key
+    required: false
+  - name: AWS_ACCESS_KEY_ID
+    inputType: Secret
+    description: ''
+    defaultValue: aws_access_key_id
+    required: false
+  - name: kinesis_stream_name_lambda
+    inputType: FreeText
+    description: ''
+    defaultValue: BenchmarkOrdersInputV2
+    required: false
+  - name: S3_BUCKET_NAME
+    inputType: FreeText
+    description: ''
+    defaultValue: kinesis-benchmarking
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
