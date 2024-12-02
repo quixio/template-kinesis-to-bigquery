@@ -16,7 +16,7 @@ variables:
     description: ''
     defaultValue: aws_access_key_id
     required: false
-  - name: kinesis_stream_name_lambda
+  - name: kinesis_stream_name_flink
     inputType: FreeText
     description: ''
     defaultValue: BenchmarkOrdersInputV2
