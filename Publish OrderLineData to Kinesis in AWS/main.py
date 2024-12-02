@@ -133,7 +133,7 @@ def generate(stream_name, kinesis_client, data):
                 "quantity": record["quantity"],
                 "price": record["price"]
             }
-            partition_key = str(data_to_send["order_id"])
+            partition_key = str(data_to_send["product_id"])
 
             # Calculate the size of the data to be sent
             data_size = len(json.dumps(data_to_send).encode('utf-8'))
