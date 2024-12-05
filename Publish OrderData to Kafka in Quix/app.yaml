@@ -1,11 +1,6 @@
 name: Publish OrderData to Kafka in Quix
 language: python
 variables:
-  - name: kinesis_stream_name_lambda
-    inputType: FreeText
-    description: ''
-    defaultValue: BenchmarkOrdersInputV2
-    required: false
   - name: S3_BUCKET_NAME
     inputType: FreeText
     description: ''
