@@ -280,6 +280,25 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: 5min-product-counts
+  - name: transformation_lambda_replacement
+    application: transformation_lambda_replacement
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 1000
+      replicas: 5
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: orders
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: orders_normalized
 
 # This section describes the Topics of the data pipeline
 topics:
