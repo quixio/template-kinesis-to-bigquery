@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from quixstreams import Application
 from dotenv import load_dotenv
 
@@ -7,62 +8,57 @@ load_dotenv()
 
 # Initialize Quix Streams Application
 app = Application(
-    consumer_group="product_counts",
-    auto_offset_reset="earliest"
+    broker_address=os.environ.get("BROKER_ADDRESS", "localhost:9092"),
+    consumer_group="category_stats_processor",
+    auto_offset_reset="earliest"  # Match Kinesis LATEST behavior if desired
 )
 
 # Define input and output topics
-input_topic = app.topic(os.environ["input"], value_deserializer="json")
-output_topic = app.topic(os.environ["output"], value_serializer="json")
+orders_topic = app.topic(
+    os.environ["input"],
+    value_deserializer="json",
+)
+
+stats_topic = app.topic(
+    os.environ["output"],
+    value_serializer="json",
+)
+
+# Create StreamingDataFrame from input topic
+sdf = app.dataframe(topic=orders_topic)
 
 
-def normalize_order(order_data):
-    """
-    Flatten nested order JSON into individual item records
-    """
-    try:
-        order = order_data["order"]
-
-        # Extract common fields
-        common_fields = {
-            "order_id": order["id"],
-            "order_date": order["date"],
-            "customer_id": order["customer"]["id"],
-            "customer_name": order["customer"]["name"],
-            "shipping_method": order["shipping"]["method"]
-        }
-
-        # Normalize into individual item records
-        for item in order["items"]:
-            normalized_record = {
-                **common_fields,
-                "product_id": item["product"]["id"],
-                "product_name": item["product"]["name"],
-                "product_category": item["product"]["category"],
-                "quantity": item["quantity"],
-                "price": item["price"]
-            }
-            yield {
-                "key": str(normalized_record["product_id"]),
-                "value": normalized_record
-            }
-
-    except Exception as e:
-        print(f"Error normalizing order: {str(e)}")
-        return None
+def format_window_stats(window_result):
+    """Format window aggregation results to match desired output schema"""
+    return {
+        "window_end": window_result["end"],
+        "product_category": window_result["key"],  # Group by key is category
+        "total_quantity": window_result["value"]
+    }
 
 
-# Create StreamingDataFrame and process
-sdf = app.dataframe(topic=input_topic)
+# Process the stream with hopping window aggregation
+sdf = (
+    # Extract quantity for aggregation
+    sdf.apply(lambda value: value["quantity"])
 
-# Apply normalization and flatten the results
-sdf = sdf.apply(normalize_order, expand=True)
+    # Create hopping window matching Flink's HOP(proc_time, INTERVAL '1' MINUTE, INTERVAL '5' MINUTES)
+    .hopping_window(
+        duration_ms=timedelta(minutes=5),  # Window size
+        step_ms=timedelta(minutes=1)  # Hop size
+    )
+    .sum()  # SUM(quantity)
+    .current()  # Get current window results
 
-# Output normalized records
-sdf = sdf.to_topic(output_topic)
+    # Format results to match desired output schema
+    .apply(format_window_stats)
+)
+
+# Output results
+sdf = sdf.to_topic(stats_topic)
 
 if __name__ == "__main__":
-    print("Starting order normalizer...")
-    print(f"Reading nested orders from: {input_topic.name}")
-    print(f"Writing normalized records to: {output_topic.name}")
+    print("Starting category stats processor...")
+    print(f"Reading from topic: {orders_topic.name}")
+    print(f"Writing to topic: {stats_topic.name}")
     app.run()
