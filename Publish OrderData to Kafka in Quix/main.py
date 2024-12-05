@@ -34,7 +34,7 @@ if __name__ == "__main__":
                 )
 
                 # Small delay between messages
-                time.sleep(0.2)  # Adjust as needed
+                # time.sleep(0.2)  # Adjust as needed
 
             except Exception as e:
                 print(f"Error producing order: {str(e)}")
