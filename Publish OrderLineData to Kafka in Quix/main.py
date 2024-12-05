@@ -9,9 +9,7 @@ load_dotenv()
 
 # Initialize Quix Streams Application
 app = Application(
-    broker_address=os.environ.get("BROKER_ADDRESS", "localhost:19092"),
-    consumer_group="orderlines_producer",
-    auto_offset_reset="latest"
+    consumer_group="orderlines_producer"
 )
 
 # Define the orders topic
