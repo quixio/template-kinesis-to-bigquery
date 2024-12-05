@@ -13,7 +13,7 @@ app = Application(
 )
 
 # Define the orders topic
-orders_topic = app.topic("orders", value_serializer="json")
+orders_topic = app.topic(os.environ['output_topic'], value_serializer="json")
 order_generator = OrderGenerator()
 
 if __name__ == "__main__":
