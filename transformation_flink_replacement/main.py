@@ -43,11 +43,14 @@ sdf = (
     .current()
     
     # Format results to match Flink output schema
-    .apply(lambda result: {
-        "window_end": result["end"],
-        "product_category": result["key"],  
-        "total_quantity": result["value"]
-    })
+    .apply(
+        lambda result, key, timestamp, headers: {
+            "window_end": result["end"],
+            "product_category": key,  # Get category from the groupby key
+            "total_quantity": result["value"]
+        },
+        metadata=True  # Important: needed to access the key
+    )
 )
 
 # Output results
@@ -59,4 +62,4 @@ if __name__ == "__main__":
     print(f"Writing to topic: {stats_topic.name}")
     app.run()
 
-# Version 4 of 4
+# Version 5 of 5
