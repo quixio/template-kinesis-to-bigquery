@@ -13,7 +13,7 @@ app = Application(
 )
 
 # Define the orders topic
-orderlines_topic = app.topic("orderlines", value_serializer="json")
+orderlines_topic = app.topic(os.environ["orderlines"], value_serializer="json")
 orderlines_generator = OrderLinesGenerator()
 
 if __name__ == "__main__":
