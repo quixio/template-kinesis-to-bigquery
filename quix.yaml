@@ -316,6 +316,20 @@ deployments:
         description: ''
         required: false
         value: orderlines
+  - name: Publish OrderData to Kafka in Quix
+    application: Publish OrderData to Kafka in Quix
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 1000
+      replicas: 5
+    variables:
+      - name: output_topic
+        inputType: OutputTopic
+        description: ''
+        required: false
+        value: orders
 
 # This section describes the Topics of the data pipeline
 topics:
