@@ -1,7 +1,6 @@
 import datetime
 import random
-from rocksdict import Rdict
-import os
+
 
 class OrderLinesGenerator:
     """
@@ -16,72 +15,64 @@ class OrderLinesGenerator:
     CITIES = ["Metropolis", "Gotham", "Central City", "Star City"]
     COUNTRIES = ["USA", "Canada", "UK"]
     PRODUCTS = [
-                {"id": "A001", "name": "Golden Lasso", "category": "Accessories"},
-                {"id": "A002", "name": "Shield of Athena", "category": "Defence"},
-                {"id": "A003", "name": "Batmobile", "category": "Vehicles"},
-                {"id": "A004", "name": "Flash Suit", "category": "Apparel"},
-                {"id": "A005", "name": "Invisibility Cloak", "category": "Apparel"},
-                {"id": "A006", "name": "Magic Wand", "category": "Magic"},
-                {"id": "A007", "name": "Potion of Healing", "category": "Potions"},
-                {"id": "A008", "name": "Dragon Shield", "category": "Defence"},
-                {"id": "A009", "name": "Elven Bow", "category": "Weapons"},
-                {"id": "A010", "name": "Dwarven Axe", "category": "Weapons"},
-                {"id": "A011", "name": "Phoenix Feather", "category": "Magic"},
-                {"id": "A012", "name": "Crystal Ball", "category": "Magic"},
-                {"id": "A013", "name": "Flying Carpet", "category": "Vehicles"},
-                {"id": "A014", "name": "Teleportation Ring", "category": "Accessories"},
-                {"id": "A015", "name": "Time Turner", "category": "Accessories"},
-                {"id": "A016", "name": "Gryphon Saddle", "category": "Accessories"},
-                {"id": "A017", "name": "Vampire Cape", "category": "Apparel"},
-                {"id": "A018", "name": "Werewolf Claw", "category": "Weapons"},
-                {"id": "A019", "name": "Mermaid Scale", "category": "Magic"},
-                {"id": "A020", "name": "Unicorn Horn", "category": "Magic"},
-                {"id": "A021", "name": "Goblin Dagger", "category": "Weapons"},
-                {"id": "A022", "name": "Troll Club", "category": "Weapons"},
-                {"id": "A023", "name": "Wizard Hat", "category": "Apparel"},
-                {"id": "A024", "name": "Sorcerer's Stone", "category": "Magic"},
-                {"id": "A025", "name": "Enchanted Mirror", "category": "Magic"},
-                {"id": "A026", "name": "Mystic Amulet", "category": "Accessories"},
-                {"id": "A027", "name": "Cursed Necklace", "category": "Accessories"},
-                {"id": "A028", "name": "Pirate's Cutlass", "category": "Weapons"},
-                {"id": "A029", "name": "Knight's Armor", "category": "Defence"},
-                {"id": "A030", "name": "Samurai Sword", "category": "Weapons"},
-                {"id": "A031", "name": "Ninja Stars", "category": "Weapons"},
-                {"id": "A032", "name": "Viking Helmet", "category": "Historical"},
-                {"id": "A033", "name": "Roman Shield", "category": "Historical"},
-                {"id": "A034", "name": "Spartan Spear", "category": "Historical"},
-                {"id": "A035", "name": "Egyptian Ankh", "category": "Magic"},
-                {"id": "A036", "name": "Aztec Calendar", "category": "Cultural"},
-                {"id": "A037", "name": "Mayan Mask", "category": "Cultural"},
-                {"id": "A038", "name": "Incan Idol", "category": "Cultural"},
-                {"id": "A039", "name": "Celtic Knot", "category": "Cultural"},
-                {"id": "A040", "name": "Voodoo Doll", "category": "Mythical"},
-                {"id": "A041", "name": "Shaman's Staff", "category": "Mythical"},
-                {"id": "A042", "name": "Alchemist's Flask", "category": "Potions"},
-                {"id": "A043", "name": "Herbal Remedy", "category": "Potions"},
-                {"id": "A044", "name": "Elixir of Life", "category": "Potions"},
-                {"id": "A045", "name": "Potion of Strength", "category": "Potions"},
-                {"id": "A046", "name": "Potion of Speed", "category": "Potions"},
-                {"id": "A047", "name": "Potion of Invisibility", "category": "Potions"},
-                {"id": "A048", "name": "Potion of Wisdom", "category": "Potions"},
-                {"id": "A049", "name": "Potion of Luck", "category": "Potions"},
-                {"id": "A050", "name": "Potion of Courage", "category": "Potions"}
+            {"id": "A001", "name": "Golden Lasso", "category": "Accessories"},
+            {"id": "A002", "name": "Shield of Athena", "category": "Defence"},
+            {"id": "A003", "name": "Batmobile", "category": "Vehicles"},
+            {"id": "A004", "name": "Flash Suit", "category": "Apparel"},
+            {"id": "A005", "name": "Invisibility Cloak", "category": "Apparel"},
+            {"id": "A006", "name": "Magic Wand", "category": "Magic"},
+            {"id": "A007", "name": "Potion of Healing", "category": "Potions"},
+            {"id": "A008", "name": "Dragon Shield", "category": "Defence"},
+            {"id": "A009", "name": "Elven Bow", "category": "Weapons"},
+            {"id": "A010", "name": "Dwarven Axe", "category": "Weapons"},
+            {"id": "A011", "name": "Phoenix Feather", "category": "Magic"},
+            {"id": "A012", "name": "Crystal Ball", "category": "Magic"},
+            {"id": "A013", "name": "Flying Carpet", "category": "Vehicles"},
+            {"id": "A014", "name": "Teleportation Ring", "category": "Accessories"},
+            {"id": "A015", "name": "Time Turner", "category": "Accessories"},
+            {"id": "A016", "name": "Gryphon Saddle", "category": "Accessories"},
+            {"id": "A017", "name": "Vampire Cape", "category": "Apparel"},
+            {"id": "A018", "name": "Werewolf Claw", "category": "Weapons"},
+            {"id": "A019", "name": "Mermaid Scale", "category": "Magic"},
+            {"id": "A020", "name": "Unicorn Horn", "category": "Magic"},
+            {"id": "A021", "name": "Goblin Dagger", "category": "Weapons"},
+            {"id": "A022", "name": "Troll Club", "category": "Weapons"},
+            {"id": "A023", "name": "Wizard Hat", "category": "Apparel"},
+            {"id": "A024", "name": "Sorcerer's Stone", "category": "Magic"},
+            {"id": "A025", "name": "Enchanted Mirror", "category": "Magic"},
+            {"id": "A026", "name": "Mystic Amulet", "category": "Accessories"},
+            {"id": "A027", "name": "Cursed Necklace", "category": "Accessories"},
+            {"id": "A028", "name": "Pirate's Cutlass", "category": "Weapons"},
+            {"id": "A029", "name": "Knight's Armor", "category": "Defence"},
+            {"id": "A030", "name": "Samurai Sword", "category": "Weapons"},
+            {"id": "A031", "name": "Ninja Stars", "category": "Weapons"},
+            {"id": "A032", "name": "Viking Helmet", "category": "Historical"},
+            {"id": "A033", "name": "Roman Shield", "category": "Historical"},
+            {"id": "A034", "name": "Spartan Spear", "category": "Historical"},
+            {"id": "A035", "name": "Egyptian Ankh", "category": "Magic"},
+            {"id": "A036", "name": "Aztec Calendar", "category": "Cultural"},
+            {"id": "A037", "name": "Mayan Mask", "category": "Cultural"},
+            {"id": "A038", "name": "Incan Idol", "category": "Cultural"},
+            {"id": "A039", "name": "Celtic Knot", "category": "Cultural"},
+            {"id": "A040", "name": "Voodoo Doll", "category": "Mythical"},
+            {"id": "A041", "name": "Shaman's Staff", "category": "Mythical"},
+            {"id": "A042", "name": "Alchemist's Flask", "category": "Potions"},
+            {"id": "A043", "name": "Herbal Remedy", "category": "Potions"},
+            {"id": "A044", "name": "Elixir of Life", "category": "Potions"},
+            {"id": "A045", "name": "Potion of Strength", "category": "Potions"},
+            {"id": "A046", "name": "Potion of Speed", "category": "Potions"},
+            {"id": "A047", "name": "Potion of Invisibility", "category": "Potions"},
+            {"id": "A048", "name": "Potion of Wisdom", "category": "Potions"},
+            {"id": "A049", "name": "Potion of Luck", "category": "Potions"},
+            {"id": "A050", "name": "Potion of Courage", "category": "Potions"}
     ]
     SHIPPING_METHODS = ["Standard", "Express", "Overnight"]
 
     def __init__(self):
         self.stop = False
+        self.total_data_size = 0
         self.max_data_size = 2e9  # 2GB limit
-        
-        # Initialize RocksDB state
-        state_dir = os.environ.get("Quix__State__Path", "state")
-        state_path = os.path.join(state_dir, "orderlines_generator")
-        os.makedirs(state_path, exist_ok=True)
-        self.state_db = Rdict(state_path)
-        
-        # Initialize state counters from persistent storage or defaults
-        self.total_data_size = self.state_db.get(b"total_data_size", 0)
-        self.orderlines_generated = self.state_db.get(b"orderlines_generated", 0)
+        self.orderlines_generated = 0
 
     def generate_orderline(self):
         """
@@ -120,9 +111,6 @@ class OrderLinesGenerator:
             data_size = len(str(item))
             self.total_data_size += data_size
 
-            # Update state storage
-            self.state_db[b"total_data_size"] = self.total_data_size
-
             if self.total_data_size >= self.max_data_size:
                 print("Reached 2GB data limit. Stopping data generation.")
                 self.stop = True
@@ -135,10 +123,3 @@ class OrderLinesGenerator:
             }
 
         self.orderlines_generated += 1
-        self.state_db[b"orderlines_generated"] = self.orderlines_generated
-        self.state_db.flush()  # Ensure state is persisted
-
-    def __del__(self):
-        """Cleanup RocksDB on object destruction"""
-        if hasattr(self, 'state_db'):
-            self.state_db.close()
