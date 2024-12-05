@@ -283,9 +283,10 @@ topics:
       retentionInBytes: -1
   - name: orderlines
     configuration:
+      partitions: 5
       replicationFactor: 2
       retentionInMinutes: 1440
-      retentionInBytes: 52428800
+      retentionInBytes: -1
   - name: orders_normalized
     configuration:
       partitions: 5
