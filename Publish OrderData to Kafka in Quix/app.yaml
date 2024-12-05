@@ -1,11 +1,6 @@
 name: Publish OrderData to Kafka in Quix
 language: python
 variables:
-  - name: AWS_SECRET_ACCESS_KEY
-    inputType: Secret
-    description: ''
-    defaultValue: aws_secret_access_key
-    required: false
   - name: AWS_ACCESS_KEY_ID
     inputType: Secret
     description: ''
