@@ -281,3 +281,8 @@ topics:
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: -1
+  - name: orderlines
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
