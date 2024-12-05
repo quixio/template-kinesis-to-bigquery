@@ -261,6 +261,25 @@ deployments:
         description: ''
         required: false
         value: kinesis-benchmarking
+  - name: transformation_flink_replacement
+    application: transformation_flink_replacement
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 1000
+      replicas: 5
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: orderlines
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: 5min-product-counts
 
 # This section describes the Topics of the data pipeline
 topics:
