@@ -9,7 +9,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: transformed
+    defaultValue: orders_normalized
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
