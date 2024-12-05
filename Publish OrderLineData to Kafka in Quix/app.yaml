@@ -1,11 +1,6 @@
 name: Publish OrderLineData to Kafka in Quix
 language: python
 variables:
-  - name: AWS_REGION_NAME
-    inputType: FreeText
-    description: ''
-    defaultValue: us-east-1
-    required: false
   - name: AWS_SECRET_ACCESS_KEY
     inputType: Secret
     description: ''
