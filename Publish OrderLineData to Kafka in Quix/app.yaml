@@ -1,6 +1,11 @@
 name: Publish OrderLineData to Kafka in Quix
 language: python
-variables: []
+variables:
+  - name: output_topic
+    inputType: OutputTopic
+    description: ''
+    defaultValue: orderlines
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
