@@ -8,7 +8,6 @@ load_dotenv()
 
 # Initialize Quix Streams Application
 app = Application(
-    broker_address=os.environ.get("BROKER_ADDRESS", "localhost:9092"),
     consumer_group="category_stats_processor",
     auto_offset_reset="earliest"  # Match Kinesis LATEST behavior if desired
 )
