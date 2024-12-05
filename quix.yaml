@@ -299,6 +299,23 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: orders_normalized
+  - name: Publish OrderLineData to Kafka in Quix
+    application: Publish OrderLineData to Kafka in Quix
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 1000
+      replicas: 5
+    state:
+      enabled: true
+      size: 1
+    variables:
+      - name: output_topic
+        inputType: OutputTopic
+        description: ''
+        required: false
+        value: orderlines
 
 # This section describes the Topics of the data pipeline
 topics:
