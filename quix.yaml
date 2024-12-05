@@ -288,9 +288,10 @@ topics:
       retentionInBytes: 52428800
   - name: orders_normalized
     configuration:
+      partitions: 5
       replicationFactor: 2
       retentionInMinutes: 1440
-      retentionInBytes: 52428800
+      retentionInBytes: -1
   - name: 5min-product-counts
     configuration:
       partitions: 1
