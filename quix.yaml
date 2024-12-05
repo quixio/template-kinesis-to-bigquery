@@ -275,3 +275,8 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Silver
+  - name: orders
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
