@@ -1,11 +1,6 @@
 name: Publish OrderLineData to Kafka in Quix
 language: python
 variables:
-  - name: kinesis_stream_name_flink
-    inputType: FreeText
-    description: ''
-    defaultValue: BenchmarkOrderlinesInputV1
-    required: false
   - name: S3_BUCKET_NAME
     inputType: FreeText
     description: ''
