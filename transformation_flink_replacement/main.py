@@ -9,7 +9,7 @@ load_dotenv()
 # Initialize Quix Streams Application
 app = Application(
     consumer_group="category_stats_processor",
-    auto_offset_reset="earliest"  # Match Kinesis LATEST behavior if desired
+    auto_offset_reset="latest"  # Match Kinesis LATEST behavior if desired
 )
 
 # Define input and output topics 
