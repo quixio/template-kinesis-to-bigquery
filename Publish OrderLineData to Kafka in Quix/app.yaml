@@ -1,11 +1,6 @@
 name: Publish OrderLineData to Kafka in Quix
 language: python
-variables:
-  - name: S3_BUCKET_NAME
-    inputType: FreeText
-    description: ''
-    defaultValue: kinesis-benchmarking
-    required: false
+variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
