@@ -1,6 +1,7 @@
 import datetime
 import random
-
+from rocksdict import Rdict
+import os
 
 class OrderLinesGenerator:
     """
@@ -65,14 +66,22 @@ class OrderLinesGenerator:
                 {"id": "A048", "name": "Potion of Wisdom", "category": "Potions"},
                 {"id": "A049", "name": "Potion of Luck", "category": "Potions"},
                 {"id": "A050", "name": "Potion of Courage", "category": "Potions"}
-            ]
+    ]
     SHIPPING_METHODS = ["Standard", "Express", "Overnight"]
 
     def __init__(self):
         self.stop = False
-        self.total_data_size = 0
         self.max_data_size = 2e9  # 2GB limit
-        self.orderlines_generated = 0
+        
+        # Initialize RocksDB state
+        state_dir = os.environ.get("Quix__State__Path", "state")
+        state_path = os.path.join(state_dir, "orderlines_generator")
+        os.makedirs(state_path, exist_ok=True)
+        self.state_db = Rdict(state_path)
+        
+        # Initialize state counters from persistent storage or defaults
+        self.total_data_size = self.state_db.get(b"total_data_size", 0)
+        self.orderlines_generated = self.state_db.get(b"orderlines_generated", 0)
 
     def generate_orderline(self):
         """
@@ -111,6 +120,9 @@ class OrderLinesGenerator:
             data_size = len(str(item))
             self.total_data_size += data_size
 
+            # Update state storage
+            self.state_db[b"total_data_size"] = self.total_data_size
+
             if self.total_data_size >= self.max_data_size:
                 print("Reached 2GB data limit. Stopping data generation.")
                 self.stop = True
@@ -123,3 +135,10 @@ class OrderLinesGenerator:
             }
 
         self.orderlines_generated += 1
+        self.state_db[b"orderlines_generated"] = self.orderlines_generated
+        self.state_db.flush()  # Ensure state is persisted
+
+    def __del__(self):
+        """Cleanup RocksDB on object destruction"""
+        if hasattr(self, 'state_db'):
+            self.state_db.close()
