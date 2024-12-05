@@ -7,14 +7,13 @@ load_dotenv()
 
 # Initialize Quix Streams Application
 app = Application(
-    broker_address=os.environ.get("BROKER_ADDRESS", "localhost:19092"),
-    consumer_group="order_normalizer",
+    consumer_group="product_counts",
     auto_offset_reset="earliest"
 )
 
 # Define input and output topics
-input_topic = app.topic("orders_raw", value_deserializer="json")
-output_topic = app.topic("orders_normalized", value_serializer="json")
+input_topic = app.topic(os.environ["input"], value_deserializer="json")
+output_topic = app.topic(os.environ["output"], value_serializer="json")
 
 
 def normalize_order(order_data):
