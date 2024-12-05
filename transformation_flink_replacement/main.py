@@ -23,35 +23,31 @@ stats_topic = app.topic(
     value_serializer="json"
 )
 
-def format_window_stats(window_result):
-    """Format window aggregation results to match desired output schema"""
-    return {
-        "window_end": window_result["end"],
-        "product_category": window_result["key"],  # Category is the group-by key
-        "total_quantity": window_result["value"]   # Sum result is just the value
-    }
-
 # Create StreamingDataFrame from input topic
 sdf = app.dataframe(topic=orders_topic)
 
 # Process the stream with hopping window aggregation
 sdf = (
-    # Group records by product category for aggregation
+    # Group by product category
     sdf.group_by(lambda value: value["product_category"], name="category_group")
     
     # Extract just the quantity for summing
     .apply(lambda value: value["quantity"])
     
-    # Create hopping window matching Flink's HOP(proc_time, INTERVAL '1' MINUTE, INTERVAL '5' MINUTES)
+    # Create hopping window with 5 min duration and 1 min step
     .hopping_window(
-        duration_ms=timedelta(minutes=5),  # Window size
-        step_ms=timedelta(minutes=1)       # Hop size
+        duration_ms=timedelta(minutes=5),
+        step_ms=timedelta(minutes=1)
     )
-    .sum()  # SUM(quantity)
-    .current()  # Get current window results
+    .sum()
+    .current()
     
-    # Format results to match desired output schema
-    .apply(format_window_stats)
+    # Format results to match Flink output schema
+    .apply(lambda result: {
+        "window_end": result["end"],
+        "product_category": result["key"],  
+        "total_quantity": result["value"]
+    })
 )
 
 # Output results
@@ -63,4 +59,4 @@ if __name__ == "__main__":
     print(f"Writing to topic: {stats_topic.name}")
     app.run()
 
-# Version 3 of 3
+# Version 4 of 4
